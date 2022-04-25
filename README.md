@@ -31,3 +31,17 @@ https://pokeapi.co/
 - /tarea-react/src/comonents/PokemonList.tsx
 - /tarea-react/src/pages/PokemonDetails.tsx
 - /tarea-react/src/App.tsx
+
+# PWA
+## Modified files
+- /tarea-react/package.json
+- /tarea-react/public/manifest.json
+- /tarea-react/src/components/PokemonList.tsx
+- tarea-react/src/index.tsx
+- tarea-react/src/pages/Home.tsx
+- tarea-react/src/pages/PokemonDetails.tsx
+
+## Created files
+- /tarea-react/public/default.jpg
+- /tarea-react/public/sw.js
+- /tarea-react/src/swDev.js
