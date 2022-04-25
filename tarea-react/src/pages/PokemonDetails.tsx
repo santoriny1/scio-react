@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
-import { isAsExpression } from 'typescript';
 ;
 
 //Function Component
@@ -14,11 +12,22 @@ export default function PokemonDetails() {
     //UseState
     const [pokemonDetails, setPokemonDetails] = useState<any>();
     const [loading, setLoading] = useState(true);
+    const [mode, setMode] = useState('online');
+    const [img, setImg] = useState('/default.jpg');
 
     const getPokemon = async (name:any) => {
-        const details: any = await getPokemonData(name);
-        setPokemonDetails(details.data);
-        setLoading(false);
+        if(navigator.onLine) { 
+            const details: any = await getPokemonData(name);
+            setPokemonDetails(details.data);
+            setLoading(false);
+            setMode('online');
+            setImg(details.data.sprites.front_default);
+        } else {
+            setLoading(false);
+            setMode('offline');
+            setPokemonDetails(JSON.parse(localStorage.getItem('pokemon-'+name) || '{}'))
+            setImg('/default.jpg');
+        }
     }
 
     const getPokemonData = async (name:any) => {
@@ -44,6 +53,18 @@ export default function PokemonDetails() {
                 <Loader/>
             ) :
                 <>
+                    { 
+                        localStorage.setItem('pokemon-'+pokemonDetails.name, JSON.stringify(pokemonDetails))
+                    }
+                    <div>
+                       {
+                           mode === 'offline' ?
+                            <div className="alert alert-warning center" role="alert">
+                                YOU ARE IN OFFLINE MODE!!!
+                            </div>
+                            : null
+                       }
+                    </div>
                     <br/>
                     <div className="container">
                         <div className="row">
@@ -57,7 +78,7 @@ export default function PokemonDetails() {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td className='text-center'><img src={pokemonDetails.sprites.front_default} alt={pokemonDetails.name} width="50%" className="img-fluid"/></td>
+                                            <td className='text-center'><img src={img} alt={pokemonDetails.name} width="50%" className="img-fluid"/></td>
                                         </tr>
                                         <tr>
                                             <th scope="col" className="text-center">Type:</th>

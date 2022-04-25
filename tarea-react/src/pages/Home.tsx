@@ -11,15 +11,24 @@ const Home = () => {
     const [pokemon, setPokemon] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
-
+    const [mode, setMode] = useState('online');
+    
     const getPokemonList = async () => {
-        let pokemonArray: any = [];
-        for(let i = 1; i <= 151; i++) {
-            pokemonArray.push(await getPokemonData(i));
-        }
-        console.log(pokemonArray);
-        setPokemon(pokemonArray);
-        setLoading(false);
+        if(navigator.onLine) {
+            let pokemonArray: any = [];
+            for(let i = 1; i <= 21; i++) {
+                pokemonArray.push(await getPokemonData(i));
+            }
+            //console.log(pokemonArray);
+            setPokemon(pokemonArray);
+            setLoading(false);
+            setMode('online');
+        } else {
+            setLoading(false);
+            setMode('offline');
+            setPokemon(JSON.parse(localStorage.getItem('pokemons') || '{}'))
+        } 
+            
     }
 
     const getPokemonData = async (id: number) => {
@@ -38,6 +47,19 @@ const Home = () => {
                 <Loader/>
             ): (
                 <>
+                   { 
+                        localStorage.setItem('pokemons', JSON.stringify(pokemon))
+
+                   }
+                   <div>
+                       {
+                           mode === 'offline' ?
+                            <div className="alert alert-warning center" role="alert">
+                                YOU ARE IN OFFLINE MODE!!!
+                            </div>
+                            : null
+                       }
+                   </div>
                     <div className="row" layout-align="center">
                         <div className="mt-12 center">
                             <form>
