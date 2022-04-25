@@ -37,9 +37,9 @@ https://pokeapi.co/
 - /tarea-react/package.json
 - /tarea-react/public/manifest.json
 - /tarea-react/src/components/PokemonList.tsx
-- tarea-react/src/index.tsx
-- tarea-react/src/pages/Home.tsx
-- tarea-react/src/pages/PokemonDetails.tsx
+- /tarea-react/src/index.tsx
+- /tarea-react/src/pages/Home.tsx
+- /tarea-react/src/pages/PokemonDetails.tsx
 
 ## Created files
 - /tarea-react/public/default.jpg
